@@ -1,0 +1,746 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>GSLC - Interactive Visualization</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2113b259-d644-4e25-b447-de557ecfe4d1" class="page sans"><header><h1 class="page-title">GSLC - Interactive Visualization</h1><p class="page-description"></p></header><div class="page-body"><p id="bb60b791-a0de-45c1-ab8b-f2993f87a1a1" class="">Name : Miecel Alicia Angel J</p><p id="3f679933-9c63-4a01-ac82-95b84bd28d75" class="">NIM    : 2702327601</p><p id="80306ad7-5841-461f-ba8f-3b7c43505e19" class="">
+</p><p id="e46caf47-eadc-4dff-9d3f-8e8bdac9a336" class=""><strong><mark class="highlight-yellow_background">Interactive data visualization significantly enhances the understanding and analysis of complex datasets compared to static visualizations in several ways:</mark></strong></p><ol type="1" id="2e815a35-9d42-4d60-a1d8-a50f2d9feb33" class="numbered-list" start="1"><li><strong>User Interaction :</strong> Explain how allowing users to interact with the data (e.g., through zooming, filtering, hovering) can <em>help uncover hidden patterns and insights</em>.</li></ol><ol type="1" id="f5b5dc00-16b5-45c8-a960-9b450263f106" class="numbered-list" start="2"><li><strong>Multidimensional Exploration : </strong>Discuss how interactive features enable the examination of multiple variables and dimensions simultaneously.</li></ol><ol type="1" id="01527eeb-0513-4684-b7ae-2271cae43416" class="numbered-list" start="3"><li><strong>Real-time Updates :</strong> Mention the advantage of real-time data updates in interactive visualizations, making them useful for live monitoring and decision-making.</li></ol><ol type="1" id="60bda3d0-7bae-4477-a325-37b697b0ddcf" class="numbered-list" start="4"><li><strong>Enhanced Engagement :</strong> Highlight how interactive elements can make data presentations more engaging and easier to understand.</li></ol><ol type="1" id="cb08348e-fcb3-4dc4-8983-bc26e1371e20" class="numbered-list" start="5"><li><strong>Customization :</strong> Talk about the ability for <em>users to personalize their view of data</em>, making the insights more relevant to their needs.</li></ol><p id="fdd6e08b-e2f0-41bb-81b4-f7a8b7a8d513" class="">
+</p><p id="cf821650-8dd9-4e8f-95f3-72be76192754" class=""><strong><mark class="highlight-yellow_background">Tools and Libraries in R for Interactive Visualizations:</mark></strong></p><ol type="1" id="80c6557f-4fb5-4621-af31-f9c3b483b1ac" class="numbered-list" start="1"><li><strong>Shiny : </strong>For building interactive web applications and dashboards.</li></ol><ol type="1" id="444445fa-8ff4-4f88-b3c3-34cca5b7d7ee" class="numbered-list" start="2"><li><strong>plotly : </strong>For creating interactive plots that can be embedded in web pages.</li></ol><ol type="1" id="51c9c278-8072-4dd4-870e-0adba699a8dc" class="numbered-list" start="3"><li><strong>ggplot2 with ggplotly :</strong> To add interactivity to ggplot2 plots.</li></ol><ol type="1" id="80a9e120-4041-4814-a029-58ae4c3b6e88" class="numbered-list" start="4"><li><strong>leaflet :</strong> For creating interactive maps.</li></ol><ol type="1" id="96aaa80c-e2a9-4b0d-aaec-3da5e8d10bab" class="numbered-list" start="5"><li><strong>DT :</strong> For creating interactive data tables.</li></ol><p id="fd984f15-2e1f-49d7-a166-fd87b4b4aab3" class="">
+</p><p id="581e11ba-862e-4dd3-a360-655b1814a027" class=""><mark class="highlight-yellow_background"><strong>Example of Using Interactive Visualization in R (using dataset </strong></mark><mark class="highlight-yellow_background"><code><strong>Starwars</strong></code></mark><mark class="highlight-yellow_background"><strong>):</strong></mark></p><p id="72c5d8a9-a088-4100-a5f5-70e31bce31a8" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0adafa88-acaa-46d3-9f86-2cfdba272c6b" class="code"><code class="language-R" style="white-space:pre-wrap;word-break:break-all">```{r}
+# Load Required Libraries and Dataset
+install.packages(c(&quot;plotly&quot;, &quot;DT&quot;, &quot;leaflet&quot;))
+
+library(dplyr)
+library(tidyr)
+library(data.table)
+library(ggplot2)
+library(plotly)
+library(DT)
+library(leaflet)
+```</code></pre><p id="f5dbac32-cfe5-44e8-83d4-5099f5750e52" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="45521a84-c232-442e-a7b9-79421a839a2f" class="code"><code class="language-R" style="white-space:pre-wrap;word-break:break-all">```{r}
+#Load Starwars dataset
+data(&quot;starwars&quot;)
+str(starwars)
+head(starwars)
+```</code></pre><p id="208c0e9a-9cad-41d7-abca-f23933fe590a" class="">
+</p><ol type="1" id="4851ad59-71ce-41be-a6d3-574a61a7835f" class="numbered-list" start="1"><li><strong>Univariate Graphic (Interactive Histogram)</strong></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="102b89cb-a9a4-48c6-95ed-3b577e7f4a7a" class="code"><code class="language-R" style="white-space:pre-wrap;word-break:break-all">```{r}
+# Creating Interactive Histogram to Visualize the Distribution of Characters&#x27; Heights
+
+uni_graph &lt;- plot_ly(starwars, x = ~height, type = &#x27;histogram&#x27;,                    
+	marker = list(color = &#x27;black&#x27;,                     
+	line = list(color = &#x27;grey&#x27;, width = 2)))
+
+uni_graph &lt;- uni_graph %&gt;%  
+	layout(title = &#x27;Distribution of Heights&#x27;,         
+	xaxis = list(title = &#x27;Height (cm)&#x27;), yaxis = list(title = &#x27;Count&#x27;))
+	
+uni_graph
+```</code></pre><p id="2173102e-32c8-4a26-a8f3-15d5d43060bd" class="">The output will be:</p><figure id="cbe06031-dc45-4bb4-b61f-be4b3a459e9a" class="image"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/UnivariateHistogram_R.png"><img style="width:707px" src="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/UnivariateHistogram_R.png"/></a></figure><p id="cf738a48-ade0-4f6a-abdb-2d4d3ae85fc5" class="">In R, users can hover over the bars to see exact counts for specific height ranges, providing precise information that a static histogram cannot display directly. Users can zoom in and out to focus on specific parts of the distribution, <em>making it easier to explore and understand the data.</em></p><p id="10837c5d-e25f-49ba-8c4b-9d0bb1916e0d" class="">
+</p><ol type="1" id="2f294cb8-9acd-4c5a-9abf-de67fb487b65" class="numbered-list" start="2"><li><strong>Bivariate Graphic (Interactive Scatter Plot)</strong></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d69ef56-98c2-4063-88ec-ddb421a48c76" class="code"><code class="language-R" style="white-space:pre-wrap;word-break:break-all"># Creating Interactive Scatter Plot to Visualize the Relationship between Height and Mass
+
+bi_graph &lt;- plot_ly(starwars, x = ~height, y = ~mass,
+						type = &#x27;scatter&#x27;,                    
+						mode = &#x27;markers&#x27;, markers = list(size = 10, color = &#x27;blue&#x27;,                                                    
+					  line = list(color = &#x27;black&#x27;,                                                                 
+							width = 1)))
+
+bi_graph &lt;- bi_graph %&gt;% 
+						layout(title = &#x27;Height vs Mass&#x27;,                                
+							xaxis = list(title = &#x27;Height (cm)&#x27;),                               
+							yaxis = list(title = &#x27;Mass (kg)&#x27;))
+						
+bi_graph</code></pre><p id="fd2c1af0-e6b3-44f3-9bc5-7b80d2ef2011" class="">The output will be:</p><figure id="3c129aa0-a927-448e-85ac-0a535eb1aec0" class="image"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/Tangkapan_Layar_2024-05-15_pukul_15.27.13.png"><img style="width:708px" src="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/Tangkapan_Layar_2024-05-15_pukul_15.27.13.png"/></a></figure><p id="0958b17d-f167-47fc-befa-adfb10c9e296" class="">Using this interactive scatter plot in R, hovering over points reveals the exact height and mass values along with additional details, which aids in understanding individual data points. Users can also dynamically filter or zoom to explore clusters or outliers, improving the analysis of the relationship between height and mass.</p><p id="75b313af-acbf-4737-9533-ee0fb1552779" class="">
+</p><ol type="1" id="4743b6e5-fa3c-47d7-ab53-9886d6025261" class="numbered-list" start="3"><li>Interactive Tables</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eb4851e9-7bf0-4254-a64d-eb75c0151d11" class="code"><code class="language-R" style="white-space:pre-wrap;word-break:break-all">```{r}
+datatable(starwars, options = list(pageLength = 10, autoWidth = TRUE))
+```</code></pre><p id="cb50585c-2dba-4e59-975a-bca3f49857d9" class="">The output will be:</p><figure id="ad02ecad-7d06-44c8-9551-e09499145369" class="image"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/53993787-a612-4bfa-934a-2e8e1e931071.png"><img style="width:480px" src="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/53993787-a612-4bfa-934a-2e8e1e931071.png"/></a></figure><p id="c4a9f040-4b7e-4637-8363-9c610ccf02fd" class="">We can use this table to sort or filter the columns, to illustrate:</p><div id="5491c457-50b2-4af5-92a7-423536f050b3" class="column-list"><div id="97d609e4-ac5e-40e9-9721-e46526f7e816" style="width:50%" class="column"><p id="07ae9a10-18f6-4c9a-be97-61378d099743" class=""><strong>Sorting the characters based on their names (alphabetically) :</strong></p></div><div id="622c05ce-8267-4235-a871-3abde40d29e3" style="width:50%" class="column"><p id="df704cf2-26d3-4197-b861-5ec703c073cb" class=""><strong>Sorting the characters based on their height (highest to shortest) :</strong></p></div></div><div id="6c00a02e-e19b-4780-8eb8-ed5b54730759" class="column-list"><div id="1166d1f1-ecce-4e95-a0d4-b8820860d4a7" style="width:50%" class="column"><figure id="3523181c-4737-4714-af71-323f05d1f515" class="image"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/a9ecd752-2bb7-4cda-a928-47eea00b6e62.png"><img style="width:359.7241379310345px" src="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/a9ecd752-2bb7-4cda-a928-47eea00b6e62.png"/></a></figure></div><div id="95acabc6-5ab5-416b-ada2-0deca37b2efa" style="width:50%" class="column"><figure id="eca9e39b-5e2a-4e16-8ceb-b29b52483201" class="image"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/fe0094aa-8f4d-49c8-b1c5-fced71c743f9.png"><img style="width:361.05383734249716px" src="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/fe0094aa-8f4d-49c8-b1c5-fced71c743f9.png"/></a></figure></div></div><p id="e4bd2684-6254-408a-9158-ef9fb87eb3f7" class="">We can also use this table to search <strong>on values at any columns</strong>, to illustrate:</p><figure id="3e852c24-3ab7-4bfb-a173-f74347912b06" class="image"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/d19f9f5f-9574-4718-b548-064e09f1f1c3.png"><img style="width:613.2815533980582px" src="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/d19f9f5f-9574-4718-b548-064e09f1f1c3.png"/></a></figure><p id="a82df683-7a3e-46d5-a28b-efacb9df66c7" class=""><mark class="highlight-yellow_background">Now we know that the name </mark><mark class="highlight-yellow_background"><strong>‘LEIA’</strong></mark><mark class="highlight-yellow_background"> is located on the fifth row of the dataset.</mark></p><p id="f5b8dc90-47e6-4cd4-b876-3a59af0e8f93" class="">
+</p><ol type="1" id="060a778c-ecf4-496d-8147-311821b46204" class="numbered-list" start="4"><li>Interactive Maps</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d41bd000-5979-4814-a616-e5ccd7104a63" class="code"><code class="language-R" style="white-space:pre-wrap;word-break:break-all">```{r}
+# Adding fictional coordinates to the dataset
+starwars_map &lt;- starwars %&gt;%  filter(!is.na(homeworld)) %&gt;%  mutate(lat = runif(n(), min = -90, max = 90),         lon = runif(n(), min = -180, max = 180))
+
+# Interactive map
+leaflet(starwars_map) %&gt;%   
+	addTiles() %&gt;%  
+	addCircleMarkers(~lon, ~lat, popup = ~paste(name, &quot;&lt;br&gt;&quot;, homeworld),                  
+				color = &#x27;blue&#x27;,                   
+				fillOpacity = 0.7,                   
+				radius = 5) %&gt;%  
+	addLegend(&quot;bottomright&quot;, colors = &#x27;blue&#x27;, 
+				labels = &quot;Characters&quot;, 
+				title = &quot;Star Wars Characters&quot;) 
+	
+```</code></pre><p id="d28cc22d-e0ee-46d5-ad79-bb2c94f8d882" class="">The output will be:</p><figure id="4fdc4b06-b76b-47a8-a84b-0e9f5fec825c" class="image"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/b3f7838c-789a-4535-a9ab-ab91f4818cc2.png"><img style="width:528px" src="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/b3f7838c-789a-4535-a9ab-ab91f4818cc2.png"/></a></figure><p id="953a1d55-8d58-4600-ae9f-b29423edfb39" class="">By using interactive maps, users can pan and zoom to explore different regions, which is crucial for spatial data analysis. <strong>Clicking on markers reveals detailed information about each character and their homeworld</strong>, making the map informative and interactive.</p><p id="bc06c452-9cd4-46bc-936a-387b5c5bd2b6" class="">
+</p><p id="9b4804f5-2479-4402-9701-49e966dfb6bf" class=""><strong>Code for Interactive Visualization in Rmd: </strong></p><figure id="d96c80b5-d4f2-4994-9e47-3d21fa61048b"><div class="source"><a href="GSLC%20-%20Interactive%20Visualization%202113b259d6444e25b447de557ecfe4d1/GSLC-Interactive_Visualization.rmd">GSLC-Interactive Visualization.Rmd</a></div></figure><p id="827e96f8-9ef5-432e-a183-fa152c387358" class="">
+</p><p id="4b0d74bf-8e7a-4688-99d3-dd5a05beb539" class="">*this Rmd file also provided in the zipped file</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
